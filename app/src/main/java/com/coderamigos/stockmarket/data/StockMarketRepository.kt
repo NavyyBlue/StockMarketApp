@@ -2,6 +2,8 @@ package com.coderamigos.stockmarket.data
 
 import com.coderamigos.stockmarket.api.ApiService
 import com.coderamigos.stockmarket.models.dataMarket.StockMarket
+import com.coderamigos.stockmarket.models.dataNews.NewsRequest
+import com.coderamigos.stockmarket.models.dataNews.NewsResponse
 import com.coderamigos.stockmarket.models.dataPrediction.StockPrediction
 import com.coderamigos.stockmarket.models.purchaseOrder.StockDecision
 import javax.inject.Inject
@@ -30,6 +32,15 @@ class StockMarketRepository @Inject constructor(
     suspend fun getDecisionData(symbol: String, period: Int, threshold: Int): StockDecision? {
         return try {
             apiService.getDecisionData(symbol, period, threshold)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    suspend fun analyzeNews(request: NewsRequest): NewsResponse? {
+        return try {
+            apiService.analyzeNews(request)
         } catch (e: Exception) {
             e.printStackTrace()
             null

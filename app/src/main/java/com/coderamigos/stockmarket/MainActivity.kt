@@ -7,10 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.coderamigos.stockmarket.models.purchaseOrder.StockDecision
 import com.coderamigos.stockmarket.ui.screens.stockData.StockDataScreenContent
 import com.coderamigos.stockmarket.ui.screens.stockDecision.StockDecisionScreen
+import com.coderamigos.stockmarket.ui.screens.stockNews.StockNewsScreen
 import com.coderamigos.stockmarket.ui.screens.stockPredict.StockPredictScreen
+import com.coderamigos.stockmarket.ui.screens.stockSelection.StockSelectionScreen
 import com.coderamigos.stockmarket.ui.theme.StockMarketTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             StockMarketTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "stockDataScreen") {
+                NavHost(navController = navController, startDestination = "stockSelectionScreen") {
+                    composable("stockSelectionScreen") {
+                        StockSelectionScreen(navController = navController)
+                    }
+
                     composable("stockDataScreen") {
                         StockDataScreenContent(navController = navController)
                     }
@@ -33,6 +38,9 @@ class MainActivity : ComponentActivity() {
                     composable("stockDecisionScreen" + "/{symbol}") { backStackEntry ->
                         val symbol = backStackEntry.arguments?.getString("symbol")
                         StockDecisionScreen(symbol = symbol ?: "", navController = navController)
+                    }
+                    composable("stockNewsScreen") {
+                        StockNewsScreen()
                     }
                 }
             }
